@@ -1,0 +1,314 @@
+[
+  {
+    "lesson": "Starter",
+    "part": "",
+    "en": "hello",
+    "ja": ["こんにちは"]
+  },
+  {
+    "lesson": "Starter",
+    "part": "",
+    "en": "good morning",
+    "ja": ["おはようございます"]
+  },
+  {
+    "lesson": "Starter",
+    "part": "",
+    "en": "goodbye",
+    "ja": ["さようなら"]
+  },
+  {
+    "lesson": "Starter",
+    "part": "",
+    "en": "thank you",
+    "ja": ["ありがとうございます"]
+  },
+  {
+    "lesson": "Starter",
+    "part": "",
+    "en": "yes",
+    "ja": ["はい"]
+  },
+  {
+    "lesson": "Starter",
+    "part": "",
+    "en": "no",
+    "ja": ["いいえ"]
+  },
+  {
+    "lesson": "Starter",
+    "part": "",
+    "en": "please",
+    "ja": ["お願いします", "ください"]
+  },
+  {
+    "lesson": "Starter",
+    "part": "",
+    "en": "excuse me",
+    "ja": ["すみません"]
+  },
+  {
+    "lesson": "Starter",
+    "part": "",
+    "en": "sorry",
+    "ja": ["ごめんなさい"]
+  },
+  {
+    "lesson": "Starter",
+    "part": "",
+    "en": "water",
+    "ja": ["水"]
+  },
+  {
+    "lesson": "Starter",
+    "part": "",
+    "en": "food",
+    "ja": ["食べ物"]
+  },
+  {
+    "lesson": "Starter",
+    "part": "",
+    "en": "toilet",
+    "ja": ["トイレ"]
+  },
+  {
+    "lesson": "1",
+    "part": "1",
+    "en": "I am a student.",
+    "ja": ["私は学生です。"]
+  },
+  {
+    "lesson": "1",
+    "part": "1",
+    "en": "He is a teacher.",
+    "ja": ["彼は先生です。"]
+  },
+  {
+    "lesson": "1",
+    "part": "1",
+    "en": "She is my friend.",
+    "ja": ["彼女は私の友達です。"]
+  },
+  {
+    "lesson": "1",
+    "part": "1",
+    "en": "It is a book.",
+    "ja": ["それは本です。"]
+  },
+  {
+    "lesson": "1",
+    "part": "1",
+    "en": "We are happy.",
+    "ja": ["私たちは幸せです。"]
+  },
+  {
+    "lesson": "1",
+    "part": "1",
+    "en": "They are students.",
+    "ja": ["彼らは学生です。"]
+  },
+  {
+    "lesson": "1",
+    "part": "2",
+    "en": "What is your name?",
+    "ja": ["あなたの名前は何ですか？"]
+  },
+  {
+    "lesson": "1",
+    "part": "2",
+    "en": "How old are you?",
+    "ja": ["何歳ですか？"]
+  },
+  {
+    "lesson": "1",
+    "part": "2",
+    "en": "Where are you from?",
+    "ja": ["どこから来ましたか？"]
+  },
+  {
+    "lesson": "1",
+    "part": "2",
+    "en": "What time is it?",
+    "ja": ["何時ですか？"]
+  },
+  {
+    "lesson": "1",
+    "part": "2",
+    "en": "How much is this?",
+    "ja": ["これはいくらですか？"]
+  },
+  {
+    "lesson": "1",
+    "part": "2",
+    "en": "How do you do?",
+    "ja": ["はじめまして"]
+  },
+  {
+    "lesson": "1",
+    "part": "3",
+    "en": "I have a pen.",
+    "ja": ["私はペンを持っています。"]
+  },
+  {
+    "lesson": "1",
+    "part": "3",
+    "en": "She has a cat.",
+    "ja": ["彼女は猫を飼っています。"]
+  },
+  {
+    "lesson": "1",
+    "part": "3",
+    "en": "He has a car.",
+    "ja": ["彼は車を持っています。"]
+  },
+  {
+    "lesson": "1",
+    "part": "3",
+    "en": "I don't have a dog.",
+    "ja": ["私は犬を飼っていません。"]
+  },
+  {
+    "lesson": "1",
+    "part": "3",
+    "en": "Do you have a bag?",
+    "ja": ["あなたはカバンを持っていますか？"]
+  },
+  {
+    "lesson": "1",
+    "part": "3",
+    "en": "Does he have a watch?",
+    "ja": ["彼は時計を持っていますか？"]
+  },
+  {
+    "lesson": "2",
+    "part": "1",
+    "en": "I go to school every day.",
+    "ja": ["私は毎日学校に行きます。"]
+  },
+  {
+    "lesson": "2",
+    "part": "1",
+    "en": "She goes to work at 9 o'clock.",
+    "ja": ["彼女は9時に仕事に行きます。"]
+  },
+  {
+    "lesson": "2",
+    "part": "1",
+    "en": "He eats breakfast at 7.",
+    "ja": ["彼は7時に朝食を食べます。"]
+  },
+  {
+    "lesson": "2",
+    "part": "1",
+    "en": "We study English.",
+    "ja": ["私たちは英語を勉強します。"]
+  },
+  {
+    "lesson": "2",
+    "part": "1",
+    "en": "They play soccer.",
+    "ja": ["彼らはサッカーをします。"]
+  },
+  {
+    "lesson": "2",
+    "part": "1",
+    "en": "I like music.",
+    "ja": ["私は音楽が好きです。"]
+  },
+  {
+    "lesson": "2",
+    "part": "2",
+    "en": "What do you do?",
+    "ja": ["何をしますか？"]
+  },
+  {
+    "lesson": "2",
+    "part": "2",
+    "en": "Where do you live?",
+    "ja": ["どこに住んでいますか？"]
+  },
+  {
+    "lesson": "2",
+    "part": "2",
+    "en": "When do you get up?",
+    "ja": ["いつ起きますか？"]
+  },
+  {
+    "lesson": "2",
+    "part": "2",
+    "en": "Why are you late?",
+    "ja": ["なぜ遅れましたか？"]
+  },
+  {
+    "lesson": "2",
+    "part": "2",
+    "en": "How do you go to school?",
+    "ja": ["どうやって学校に行きますか？"]
+  },
+  {
+    "lesson": "2",
+    "part": "2",
+    "en": "What is your hobby?",
+    "ja": ["あなたの趣味は何ですか？"]
+  },
+  {
+    "lesson": "3",
+    "part": "",
+    "en": "beautiful",
+    "ja": ["美しい", "きれいな"]
+  },
+  {
+    "lesson": "3",
+    "part": "",
+    "en": "delicious",
+    "ja": ["おいしい"]
+  },
+  {
+    "lesson": "3",
+    "part": "",
+    "en": "interesting",
+    "ja": ["面白い"]
+  },
+  {
+    "lesson": "3",
+    "part": "",
+    "en": "easy",
+    "ja": ["簡単な", "やさしい"]
+  },
+  {
+    "lesson": "3",
+    "part": "",
+    "en": "difficult",
+    "ja": ["難しい"]
+  },
+  {
+    "lesson": "3",
+    "part": "",
+    "en": "important",
+    "ja": ["重要だ"]
+  },
+  {
+    "lesson": "3",
+    "part": "",
+    "en": "necessary",
+    "ja": ["必要だ"]
+  },
+  {
+    "lesson": "3",
+    "part": "",
+    "en": "possible",
+    "ja": ["可能だ"]
+  },
+  {
+    "lesson": "3",
+    "part": "",
+    "en": "impossible",
+    "ja": ["不可能だ"]
+  },
+  {
+    "lesson": "3",
+    "part": "",
+    "en": "cheap",
+    "ja": ["安い"]
+  }
+]
