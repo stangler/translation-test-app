@@ -75,6 +75,8 @@ async function callOpenRouter(prompt: string): Promise<string> {
     headers: {
       Authorization: `Bearer ${OPENROUTER_API_KEY}`,
       "Content-Type": "application/json",
+      "HTTP-Referer": "https://translation-test-app.vercel.app",
+      "X-Title": "translation-test-app",
     },
     body: JSON.stringify({
       model: OPENROUTER_MODEL,
