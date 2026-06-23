@@ -37,69 +37,11 @@ interface QuizState {
   markResult: boolean | null;
 }
 
-// ===== AI フォールバック判定（Gemini / OpenRouter 両対応）=====
-const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || "";
-const OPENROUTER_API_KEY = process.env.NEXT_PUBLIC_OPENROUTER_API_KEY || "";
-const GEMINI_MODEL = process.env.NEXT_PUBLIC_GEMINI_MODEL || "gemini-2.0-flash";
-const OPENROUTER_MODEL =
-  process.env.NEXT_PUBLIC_OPENROUTER_MODEL || "openai/gpt-4o-mini";
-
-const AI_PROMPT = (enQuestion: string, correct: string, userRaw: string) =>
-  `あなたは中学英語の採点者です。以下の生徒の答えが正解と同じ意味かどうか、YES か NO だけ答えてください。
-英語の問題: ${enQuestion}
-正解の日本語訳: ${correct}
-生徒の答え: ${userRaw}
-同じ意味ですか？（YES/NO）`;
-
-async function callGemini(prompt: string): Promise<string> {
-  const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { maxOutputTokens: 4, temperature: 0 },
-      }),
-    },
-  );
-  const data = await res.json();
-  return (
-    data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim().toUpperCase() ?? ""
-  );
-}
-
-async function callOpenRouter(prompt: string): Promise<string> {
-  const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-      "Content-Type": "application/json",
-      "HTTP-Referer": "https://translation-test-app.vercel.app",
-      "X-Title": "translation-test-app",
-    },
-    body: JSON.stringify({
-      model: OPENROUTER_MODEL,
-      messages: [{ role: "user", content: prompt }],
-      max_tokens: 200,
-      temperature: 0,
-    }),
-  });
-  const data = await res.json();
-  const msg = data?.choices?.[0]?.message;
-  let text = Array.isArray(msg?.content)
-    ? (msg.content.find((b: any) => b.type === "text")?.text ?? "")
-    : (msg?.content ?? "");
-  if (!text && msg?.reasoning) {
-    const m = msg.reasoning.match(/(YES|NO)/i);
-    text = m ? m[1] : "";
-  }
-  return text.trim().toUpperCase();
-}
-
 const matchJa = (userRaw: string, answers: string[]): boolean => {
-  const user = userRaw.trim().toLowerCase();
-  return answers.some((ans) => ans.trim().toLowerCase() === user);
+  const normalize = (s: string) =>
+    s.trim().toLowerCase().replace(/[。、．，]/g, "");
+  const user = normalize(userRaw);
+  return answers.some((ans) => normalize(ans) === user);
 };
 
 async function matchJaWithAI(
@@ -109,23 +51,14 @@ async function matchJaWithAI(
 ): Promise<{ correct: boolean; byAI: boolean }> {
   if (matchJa(userRaw, answers)) return { correct: true, byAI: false };
 
-  const useGemini = !!GEMINI_API_KEY;
-  const useOpenRouter = !!OPENROUTER_API_KEY;
-  if (!useGemini && !useOpenRouter) return { correct: false, byAI: false };
-
-  const apiName = useGemini
-    ? `Gemini(${GEMINI_MODEL})`
-    : `OpenRouter(${OPENROUTER_MODEL})`;
-  const prompt = AI_PROMPT(enQuestion, answers[0], userRaw);
   try {
-    const text = useGemini
-      ? await callGemini(prompt)
-      : await callOpenRouter(prompt);
-    const correct = text.startsWith("YES");
-    console.log(
-      `[AI判定] ${apiName} → ${text} | user="${userRaw}" ans="${answers[0]}"`,
-    );
-    return { correct, byAI: correct };
+    const res = await fetch("/api/judge", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ enQuestion, correct: answers[0], userRaw }),
+    });
+    const data = await res.json();
+    return { correct: data.correct, byAI: data.byAI };
   } catch (e) {
     console.warn("AI API error:", e);
     return { correct: false, byAI: false };
@@ -152,7 +85,6 @@ export default function Home() {
   const isAnsweredRef = useRef(false);
 
   useEffect(() => {
-    // words-data.jsonを読み込み
     fetch("/words-data.json")
       .then((res) => res.json())
       .then((data: Word[]) => {
@@ -218,9 +150,7 @@ export default function Home() {
   };
 
   const compareWords = (user: string, correct: string): boolean => {
-    const userNorm = normalizeEn(user);
-    const ansNorm = normalizeEn(correct);
-    return userNorm === ansNorm;
+    return normalizeEn(user) === normalizeEn(correct);
   };
 
   const checkAnswer = async () => {
@@ -242,7 +172,6 @@ export default function Home() {
       correct = compareWords(userRaw, item.en);
     }
 
-    // フィードバックデータ構築
     let answerText = "";
     let altAnswers = "";
     if (mode === "en2ja") {
@@ -262,7 +191,6 @@ export default function Home() {
     }));
     isAnsweredRef.current = true;
 
-    // inputスタイルのみDOM直接操作
     input.readOnly = true;
     input.classList.add(correct ? "correct" : "wrong");
   };
@@ -512,10 +440,6 @@ export default function Home() {
       </div>
       <div className="app-subtitle text-[13px] text-gray-500 mb-7">
         EIGO NO PARTNER
-      </div>
-
-      <div style={{fontSize:"10px",color:"red",marginBottom:"4px"}}>
-        key: {process.env.NEXT_PUBLIC_OPENROUTER_API_KEY?.slice(0,8)}...
       </div>
 
       <div className="section-label text-[12px] font-bold text-red uppercase tracking-wider mb-2.5">
