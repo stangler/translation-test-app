@@ -1,3 +1,11 @@
-import { handlers } from "@/auth";
+import { NextRequest } from "next/server";
 
-export const { GET, POST } = handlers;
+export async function GET(req: NextRequest) {
+  const { handlers } = await import("@/auth");
+  return handlers.GET(req);
+}
+
+export async function POST(req: NextRequest) {
+  const { handlers } = await import("@/auth");
+  return handlers.POST(req);
+}
