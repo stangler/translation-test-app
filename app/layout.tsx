@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Zen_Maru_Gothic, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import SessionProvider from "@/components/auth/session-provider";
-import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react";
 
 const zenMaruGothic = Zen_Maru_Gothic({
   weight: ["400", "500", "700"],
@@ -21,21 +20,15 @@ export const metadata: Metadata = {
   description: "EIGO NO PARTNER - 英語学習アプリ",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  let session = null;
-  try {
-    session = await auth();
-  } catch (e) {
-    console.warn("auth() failed during build:", e);
-  }
   return (
     <html lang="ja">
       <body className={`${zenMaruGothic.variable} ${jetBrainsMono.variable}`}>
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );
