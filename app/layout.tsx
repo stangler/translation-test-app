@@ -26,7 +26,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
+  let session = null;
+  try {
+    session = await auth();
+  } catch (e) {
+    console.warn("auth() failed during build:", e);
+  }
   return (
     <html lang="ja">
       <body className={`${zenMaruGothic.variable} ${jetBrainsMono.variable}`}>
