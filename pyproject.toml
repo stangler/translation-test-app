@@ -1,0 +1,8 @@
+[project]
+name = "translation-test-app"
+version = "0.1.0"
+description = "English translation test application - data builder"
+requires-python = ">=3.10"
+dependencies = [
+    "openpyxl>=3.1",
+]

@@ -31,6 +31,11 @@ pnpm-debug.log*
 .env*.local
 .env
 
+# python / uv
+.venv
+__pycache__/
+*.pyc
+
 # vercel
 .vercel
 
