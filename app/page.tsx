@@ -512,6 +512,10 @@ export default function Home() {
         EIGO NO PARTNER
       </div>
 
+      <div style={{fontSize:"10px",color:"red",marginBottom:"4px"}}>
+        key: {process.env.NEXT_PUBLIC_OPENROUTER_API_KEY?.slice(0,8)}...
+      </div>
+
       <div className="section-label text-[12px] font-bold text-red uppercase tracking-wider mb-2.5">
         モードを選ぶ
       </div>
