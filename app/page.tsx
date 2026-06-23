@@ -31,7 +31,6 @@ interface QuizState {
     byAI: boolean;
   }>;
   isAnswered: boolean;
-  kuromojiReady: boolean;
   lessons: string[];
   parts: string[];
   feedback: FeedbackData | null;
@@ -141,7 +140,6 @@ export default function Home() {
     currentIndex: 0,
     results: [],
     isAnswered: false,
-    kuromojiReady: false,
     lessons: [],
     parts: [],
     feedback: null,
@@ -149,7 +147,6 @@ export default function Home() {
   });
 
   const [screen, setScreen] = useState<"start" | "quiz" | "result">("start");
-  const tokenizerRef = useRef<any>(null);
   const isAnsweredRef = useRef(false);
 
   useEffect(() => {
@@ -162,30 +159,6 @@ export default function Home() {
         setState((prev) => ({ ...prev, lessons }));
       })
       .catch((err) => console.error("Failed to load words data:", err));
-  }, []);
-
-  useEffect(() => {
-    // kuromoji初期化
-    const initKuromoji = async () => {
-      try {
-        const kuromoji = require("kuromoji");
-        kuromoji
-          .builder({ dicPath: "https://unpkg.com/kuromoji@0.1.2/dict" })
-          .build((err: any, built: any) => {
-            if (!err) {
-              tokenizerRef.current = built;
-              setState((prev) => ({ ...prev, kuromojiReady: true }));
-            } else {
-              console.warn("kuromoji初期化失敗:", err);
-              setState((prev) => ({ ...prev, kuromojiReady: true }));
-            }
-          });
-      } catch (e) {
-        console.warn("kuromoji load error:", e);
-        setState((prev) => ({ ...prev, kuromojiReady: true }));
-      }
-    };
-    initKuromoji();
   }, []);
 
   const selectMode = (mode: Mode) => {
@@ -305,10 +278,6 @@ export default function Home() {
       }));
       isAnsweredRef.current = false;
     }
-  };
-
-  const showResult = () => {
-    setScreen("result");
   };
 
   const retryMistakes = () => {
@@ -623,17 +592,10 @@ export default function Home() {
         </label>
       </div>
 
-      <div
-        id="kuromoji-loading"
-        className="text-center text-xs text-gray-400 mb-2"
-      >
-        {state.kuromojiReady ? "✓ 準備完了" : "⏳ 辞書を読み込み中…"}
-      </div>
-
       <button
         id="start-btn"
         className="start-btn"
-        disabled={state.selectedLesson === null || !state.kuromojiReady}
+        disabled={state.selectedLesson === null}
         onClick={() => {
           const shuffle = (
             document.getElementById("shuffle-check") as HTMLInputElement
