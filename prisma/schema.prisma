@@ -13,6 +13,7 @@ model User {
   emailVerified DateTime?
   accounts      Account[]
   sessions      Session[]
+  attempts      QuizAttempt[]
 }
 
 model Account {
@@ -48,4 +49,30 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model QuizAttempt {
+  id        String   @id @default(cuid())
+  userId    String
+  mode      String
+  lesson    String
+  part      String?
+  score     Int
+  total     Int
+  createdAt DateTime @default(now())
+
+  user  User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items QuizResult[]
+}
+
+model QuizResult {
+  id         String @id @default(cuid())
+  attemptId  String
+  wordEn     String
+  wordJa     String
+  userAnswer String
+  correct    Boolean
+  byAI       Boolean
+
+  attempt QuizAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
 }
