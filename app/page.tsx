@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Mode = "en2ja" | "ja2en";
 
@@ -39,7 +41,10 @@ interface QuizState {
 
 const matchJa = (userRaw: string, answers: string[]): boolean => {
   const normalize = (s: string) =>
-    s.trim().toLowerCase().replace(/[。、．，]/g, "");
+    s
+      .trim()
+      .toLowerCase()
+      .replace(/[。、．，]/g, "");
   const user = normalize(userRaw);
   return answers.some((ans) => normalize(ans) === user);
 };
@@ -66,6 +71,8 @@ async function matchJaWithAI(
 }
 
 export default function Home() {
+  const { data: session } = useSession();
+  const router = useRouter();
   const [wordsData, setWordsData] = useState<Word[]>([]);
   const [state, setState] = useState<QuizState>({
     mode: "en2ja",
@@ -176,7 +183,10 @@ export default function Home() {
     let altAnswers = "";
     if (mode === "en2ja") {
       answerText = item.ja_answers[0];
-      altAnswers = item.ja_answers.length > 1 ? `別解: ${item.ja_answers.slice(1).join(" / ")}` : "";
+      altAnswers =
+        item.ja_answers.length > 1
+          ? `別解: ${item.ja_answers.slice(1).join(" / ")}`
+          : "";
     } else {
       answerText = item.en;
       altAnswers = "";
@@ -245,6 +255,40 @@ export default function Home() {
     setScreen("start");
   };
 
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  const saveResult = async () => {
+    if (saving || saved) return;
+    setSaving(true);
+    try {
+      const results = state.results.map((r) => ({
+        wordEn: r.item.en,
+        wordJa: r.item.ja,
+        userAnswer: r.userAnswer,
+        correct: r.correct,
+        byAI: r.byAI,
+      }));
+      const res = await fetch("/api/attempts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mode: state.mode,
+          lesson: state.selectedLesson,
+          part: state.selectedPart === "all" ? null : state.selectedPart,
+          results,
+        }),
+      });
+      if (res.ok) {
+        setSaved(true);
+      }
+    } catch (e) {
+      console.warn("Failed to save result:", e);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (screen === "quiz" && state.queue.length > 0) {
     const item = state.queue[state.currentIndex];
 
@@ -287,14 +331,24 @@ export default function Home() {
             }}
           >
             {state.markResult === true && (
-              <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" width="56" height="56">
-                <circle cx="28" cy="28" r="22" className="circle-path"/>
+              <svg
+                viewBox="0 0 56 56"
+                xmlns="http://www.w3.org/2000/svg"
+                width="56"
+                height="56"
+              >
+                <circle cx="28" cy="28" r="22" className="circle-path" />
               </svg>
             )}
             {state.markResult === false && (
-              <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" width="56" height="56">
-                <line x1="12" y1="12" x2="44" y2="44" className="cross-path1"/>
-                <line x1="44" y1="12" x2="12" y2="44" className="cross-path2"/>
+              <svg
+                viewBox="0 0 56 56"
+                xmlns="http://www.w3.org/2000/svg"
+                width="56"
+                height="56"
+              >
+                <line x1="12" y1="12" x2="44" y2="44" className="cross-path1" />
+                <line x1="44" y1="12" x2="12" y2="44" className="cross-path2" />
               </svg>
             )}
           </div>
@@ -330,27 +384,54 @@ export default function Home() {
             <div className="feedback-correct-label">
               ✏️ 正解
               {state.feedback.byAI && (
-                <span style={{display:"inline-block",marginLeft:"8px",padding:"1px 7px",borderRadius:"10px",fontSize:"11px",fontWeight:"bold",background:"#e8f4ff",color:"#3a7bd5",border:"1px solid #b0d0f0",verticalAlign:"middle"}}>
+                <span
+                  style={{
+                    display: "inline-block",
+                    marginLeft: "8px",
+                    padding: "1px 7px",
+                    borderRadius: "10px",
+                    fontSize: "11px",
+                    fontWeight: "bold",
+                    background: "#e8f4ff",
+                    color: "#3a7bd5",
+                    border: "1px solid #b0d0f0",
+                    verticalAlign: "middle",
+                  }}
+                >
                   🤖 AI判定
                 </span>
               )}
             </div>
-            <div className="feedback-answer ja-text">{state.feedback.answerText}</div>
+            <div className="feedback-answer ja-text">
+              {state.feedback.answerText}
+            </div>
             {state.feedback.altAnswers && (
-              <div className="feedback-all-answers">{state.feedback.altAnswers}</div>
+              <div className="feedback-all-answers">
+                {state.feedback.altAnswers}
+              </div>
             )}
           </div>
         )}
 
         <div className="action-row flex gap-2.5">
           {!state.isAnswered && (
-            <button className="check-btn" style={{flex:1}} onClick={checkAnswer}>
+            <button
+              className="check-btn"
+              style={{ flex: 1 }}
+              onClick={checkAnswer}
+            >
               判定
             </button>
           )}
           {state.isAnswered && (
-            <button className="next-btn show" style={{flex:1}} onClick={nextQuestion}>
-              {state.currentIndex === state.queue.length - 1 ? "結果を見る" : "次へ →"}
+            <button
+              className="next-btn show"
+              style={{ flex: 1 }}
+              onClick={nextQuestion}
+            >
+              {state.currentIndex === state.queue.length - 1
+                ? "結果を見る"
+                : "次へ →"}
             </button>
           )}
         </div>
@@ -415,6 +496,20 @@ export default function Home() {
         )}
 
         <div className="result-btns flex flex-col gap-2.5">
+          {session && !saved && (
+            <button
+              className="result-btn primary"
+              onClick={saveResult}
+              disabled={saving}
+            >
+              {saving ? "保存中..." : "💾 結果を保存"}
+            </button>
+          )}
+          {session && saved && (
+            <div className="text-center text-sm text-green-600 mb-1">
+              ✅ 結果を保存しました
+            </div>
+          )}
           <button
             className="result-btn primary"
             onClick={retryMistakes}
@@ -428,6 +523,14 @@ export default function Home() {
           <button className="result-btn" onClick={goToStart}>
             選択に戻る
           </button>
+          {session && (
+            <button
+              className="result-btn"
+              onClick={() => router.push("/history")}
+            >
+              📊 履歴を見る
+            </button>
+          )}
         </div>
       </div>
     );

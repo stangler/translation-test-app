@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Zen_Maru_Gothic, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
+import { NavBar } from "@/components/nav-bar";
 
 const zenMaruGothic = Zen_Maru_Gothic({
   weight: ["400", "500", "700"],
@@ -28,7 +29,10 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={`${zenMaruGothic.variable} ${jetBrainsMono.variable}`}>
-        <SessionProvider>{children}</SessionProvider>
+        <SessionProvider>
+          <NavBar />
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );
