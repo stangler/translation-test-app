@@ -242,6 +242,8 @@ export default function Home() {
     return expandContractions(text)
       .normalize("NFKC")
       .replace(/'/g, "")
+      .replace(/\b(a|an|the)\b/gi, "")
+      .replace(/\s+/g, " ")
       .trim();
   };
 
