@@ -90,6 +90,8 @@ export default function Home() {
 
   const [screen, setScreen] = useState<"start" | "quiz" | "result">("start");
   const isAnsweredRef = useRef(false);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     fetch("/words-data.json")
@@ -101,6 +103,40 @@ export default function Home() {
       })
       .catch((err) => console.error("Failed to load words data:", err));
   }, []);
+
+  // sessionStorage からの再挑戦データを読み込み
+  useEffect(() => {
+    try {
+      const retryDataRaw = sessionStorage.getItem("retry-data");
+      const retryModeRaw = sessionStorage.getItem("retry-mode");
+      if (retryDataRaw && retryModeRaw) {
+        const retryItems: Word[] = JSON.parse(retryDataRaw);
+        const retryMode: Mode = retryModeRaw === "ja2en" ? "ja2en" : "en2ja";
+        // sessionStorage をクリア（再読み込み時に再発防止）
+        sessionStorage.removeItem("retry-data");
+        sessionStorage.removeItem("retry-mode");
+
+        setState((prev) => ({
+          ...prev,
+          mode: retryMode,
+          queue: retryItems,
+          currentIndex: 0,
+          results: [],
+          isAnswered: false,
+          feedback: null,
+          markResult: null,
+          selectedLesson: retryItems[0]?.lesson ?? prev.selectedLesson,
+          selectedPart: retryItems[0]?.part ?? prev.selectedPart,
+        }));
+        isAnsweredRef.current = false;
+        setSaved(false);
+        setScreen("quiz");
+      }
+    } catch (e) {
+      console.error("Failed to load retry data:", e);
+    }
+  }, []);
+
 
   const selectMode = (mode: Mode) => {
     setState((prev) => ({ ...prev, mode }));
@@ -309,9 +345,6 @@ export default function Home() {
   const goToStart = () => {
     setScreen("start");
   };
-
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
 
   const saveResult = async () => {
     if (saving || saved) return;
