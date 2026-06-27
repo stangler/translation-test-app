@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
   return NextResponse.json(attempt, { status: 201 });
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -61,8 +61,16 @@ export async function GET() {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
+  const { searchParams } = new URL(req.url);
+  const lesson = searchParams.get("lesson");
+  const part = searchParams.get("part");
+
+  const where: any = { userId: user.id };
+  if (lesson) where.lesson = lesson;
+  if (part) where.part = part;
+
   const attempts = await prisma.quizAttempt.findMany({
-    where: { userId: user.id },
+    where,
     orderBy: { createdAt: "desc" },
     include: { _count: { select: { items: true } } },
   });
