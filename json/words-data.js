@@ -195,7 +195,8 @@ const wordsData = [
     "en": "often",
     "ja": "たびたび、よく",
     "ja_answers": [
-      "たびたび、よく"
+      "たびたび",
+      "よく"
     ]
   },
   {
