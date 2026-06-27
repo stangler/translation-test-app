@@ -274,7 +274,7 @@ const wordsData = [
   {
     "lesson": "1",
     "part": "2",
-    "en": "Do you play piano?",
+    "en": "Do you play the piano?",
     "ja": "あなたはピアノをひきますか。",
     "ja_answers": [
       "あなたはピアノをひきますか。"
