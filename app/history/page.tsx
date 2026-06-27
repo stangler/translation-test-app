@@ -20,6 +20,7 @@ export default function HistoryPage() {
   const [loading, setLoading] = useState(true);
   const [selectedLesson, setSelectedLesson] = useState<string | null>(null);
   const [selectedPart, setSelectedPart] = useState<string | null>(null);
+  const [selectedMode, setSelectedMode] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/attempts")
@@ -59,6 +60,9 @@ export default function HistoryPage() {
   // フィルター後の attempts
   const filtered = useMemo(() => {
     let result = [...attempts];
+    if (selectedMode) {
+      result = result.filter((a) => a.mode === selectedMode);
+    }
     if (selectedLesson) {
       result = result.filter((a) => a.lesson === selectedLesson);
     }
@@ -66,7 +70,7 @@ export default function HistoryPage() {
       result = result.filter((a) => a.part === selectedPart);
     }
     return result;
-  }, [attempts, selectedLesson, selectedPart]);
+  }, [attempts, selectedMode, selectedLesson, selectedPart]);
 
   // グラフ用（古い順）
   const reversed = useMemo(() => [...filtered].reverse(), [filtered]);
@@ -108,6 +112,45 @@ export default function HistoryPage() {
         </p>
       ) : (
         <>
+          {/* ── Mode フィルター ── */}
+          <div className="mb-3">
+            <div className="text-xs font-bold text-gray-500 mb-2">
+              モードで絞り込む
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              <button
+                className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                  selectedMode === null
+                    ? "bg-red text-white border-red"
+                    : "bg-white text-gray-600 border-border hover:border-red/30"
+                }`}
+                onClick={() => setSelectedMode(null)}
+              >
+                すべて
+              </button>
+              <button
+                className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                  selectedMode === "en2ja"
+                    ? "bg-red text-white border-red"
+                    : "bg-white text-gray-600 border-border hover:border-red/30"
+                }`}
+                onClick={() => setSelectedMode("en2ja")}
+              >
+                🇬🇧→🇯🇵 英→日
+              </button>
+              <button
+                className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                  selectedMode === "ja2en"
+                    ? "bg-red text-white border-red"
+                    : "bg-white text-gray-600 border-border hover:border-red/30"
+                }`}
+                onClick={() => setSelectedMode("ja2en")}
+              >
+                🇯🇵→🇬🇧 日→英
+              </button>
+            </div>
+          </div>
+
           {/* ── Lesson フィルター ── */}
           <div className="mb-3">
             <div className="text-xs font-bold text-gray-500 mb-2">

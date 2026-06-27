@@ -149,6 +149,7 @@ export default function Home() {
       markResult: null,
     }));
     isAnsweredRef.current = false;
+    setSaved(false);
     setScreen("quiz");
   };
 
@@ -285,6 +286,7 @@ export default function Home() {
       markResult: null,
     }));
     isAnsweredRef.current = false;
+    setSaved(false);
     setScreen("quiz");
   };
 
@@ -300,6 +302,7 @@ export default function Home() {
       markResult: null,
     }));
     isAnsweredRef.current = false;
+    setSaved(false);
     setScreen("quiz");
   };
 
