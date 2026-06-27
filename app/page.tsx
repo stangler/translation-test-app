@@ -152,8 +152,60 @@ export default function Home() {
     setScreen("quiz");
   };
 
+  const CONTRACTIONS_MAP: Record<string, string> = {
+    "don't": "do not",
+    "doesn't": "does not",
+    "didn't": "did not",
+    "isn't": "is not",
+    "aren't": "are not",
+    "wasn't": "was not",
+    "weren't": "were not",
+    "haven't": "have not",
+    "hasn't": "has not",
+    "hadn't": "had not",
+    "won't": "will not",
+    "wouldn't": "would not",
+    "can't": "cannot",
+    "couldn't": "could not",
+    "shouldn't": "should not",
+    "mustn't": "must not",
+    "needn't": "need not",
+    "i'm": "i am",
+    "you're": "you are",
+    "he's": "he is",
+    "she's": "she is",
+    "it's": "it is",
+    "we're": "we are",
+    "they're": "they are",
+    "i've": "i have",
+    "you've": "you have",
+    "we've": "we have",
+    "they've": "they have",
+    "i'll": "i will",
+    "you'll": "you will",
+    "he'll": "he will",
+    "she'll": "she will",
+    "it'll": "it will",
+    "we'll": "we will",
+    "they'll": "they will",
+    "let's": "let us",
+  };
+
+  const expandContractions = (text: string): string => {
+    const lower = text.toLowerCase();
+    // Build a regex that matches any contraction (longest first to avoid partial matches)
+    const contractions = Object.keys(CONTRACTIONS_MAP).sort(
+      (a, b) => b.length - a.length,
+    );
+    const regex = new RegExp(`\\b(${contractions.join("|")})\\b`, "gi");
+    return lower.replace(regex, (match) => CONTRACTIONS_MAP[match.toLowerCase()]);
+  };
+
   const normalizeEn = (text: string): string => {
-    return text.toLowerCase().normalize("NFKC").replace(/'/g, "").trim();
+    return expandContractions(text)
+      .normalize("NFKC")
+      .replace(/'/g, "")
+      .trim();
   };
 
   const compareWords = (user: string, correct: string): boolean => {
