@@ -384,13 +384,33 @@ export default function Home() {
 
     return (
       <div className="note-page">
-        <div className="quiz-header flex justify-between items-center mb-5">
+        <div className="quiz-header flex justify-between items-center mb-2">
           <div className="quiz-progress text-[13px] text-gray-500">
             {state.currentIndex + 1} / {state.queue.length}
           </div>
           <div className="quiz-mode-badge text-[11px] font-bold px-2.5 py-1 rounded-full bg-blue text-white">
             {state.mode === "en2ja" ? "英→日" : "日→英"}
           </div>
+        </div>
+
+        {/* 現在のレッスン・パート表示 */}
+        <div className="location-indicator text-[12px] text-gray-500 mb-3 flex items-center gap-1">
+          <span>📖</span>
+          <span className="font-semibold text-gray-700">
+            {state.selectedLesson === "Starter"
+              ? "Starter"
+              : `Lesson ${state.selectedLesson}`}
+          </span>
+          {state.selectedPart && state.selectedPart !== "all" && (
+            <>
+              <span className="text-gray-300 mx-0.5">/</span>
+              <span className="font-semibold text-gray-700">
+                {state.selectedPart.startsWith("学んだことを整理")
+                  ? "復習"
+                  : `Part ${state.selectedPart}`}
+              </span>
+            </>
+          )}
         </div>
 
         <div className="progress-bar-wrap w-full h-1.5 bg-border rounded mb-7 overflow-hidden">
