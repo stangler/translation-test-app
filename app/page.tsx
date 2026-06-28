@@ -267,7 +267,12 @@ export default function Home() {
     let byAI = false;
 
     if (mode === "en2ja") {
-      const aiResult = await matchJaWithAI(userRaw, item.ja_answers, item.en);
+      // Include the full ja answer as well, since ja_answers may be split into parts
+      const aiResult = await matchJaWithAI(
+        userRaw,
+        [item.ja, ...item.ja_answers],
+        item.en,
+      );
       correct = aiResult.correct;
       byAI = aiResult.byAI;
     } else {
