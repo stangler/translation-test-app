@@ -44,7 +44,8 @@ const matchJa = (userRaw: string, answers: string[]): boolean => {
     s
       .trim()
       .toLowerCase()
-      .replace(/[。、．，]/g, "");
+      .replace(/[。、．，…]/g, "")
+      .replace(/^を/, "");
   const user = normalize(userRaw);
   return answers.some((ans) => normalize(ans) === user);
 };
@@ -136,7 +137,6 @@ export default function Home() {
       console.error("Failed to load retry data:", e);
     }
   }, []);
-
 
   const selectMode = (mode: Mode) => {
     setState((prev) => ({ ...prev, mode }));
@@ -236,7 +236,10 @@ export default function Home() {
       (a, b) => b.length - a.length,
     );
     const regex = new RegExp(`\\b(${contractions.join("|")})\\b`, "gi");
-    return lower.replace(regex, (match) => CONTRACTIONS_MAP[match.toLowerCase()]);
+    return lower.replace(
+      regex,
+      (match) => CONTRACTIONS_MAP[match.toLowerCase()],
+    );
   };
 
   const normalizeEn = (text: string): string => {
