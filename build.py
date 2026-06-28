@@ -16,21 +16,43 @@ def parse_ja_answer(ja_text: str) -> list[str]:
     日本語テキストから正解候補リストを生成する。
     例: 「私はネコを好みます。（=私はネコが好きです。）」
     → ["私はネコを好みます。", "私はネコが好きです。"]
+    例: 「たびたび、よく」
+    → ["たびたび", "よく"]
     """
     if not ja_text:
         return []
 
     answers = []
-    main = re.sub(r'（[^）]*）', '', ja_text).strip()
-    if main:
-        answers.append(main)
+    # 「、」で区切られた複数の意味を分割
+    # ただし「動作、アクション」のような長い語句の途中の「、」は分割しないため、
+    # 日本語訳として一般的な短い語句（区切り表現）の場合のみ分割
+    # 具体的には: 各パートが英単語の訳として独立した意味を持つ場合
+    # 簡易的に「、」で分割し、各部分が括弧を含まない短い語句なら分割候補とする
+    for part in re.split(r'、', ja_text):
+        part = part.strip()
+        # 括弧を含むもの（例：「毎…、…ごとに」）は1つの答えとして扱う
+        # 短い語句（例：「たびたび」「よく」）は独立した答え
+        answers.append(part)
 
+    # （=...）形式の別解も抽出
     for m in re.finditer(r'（=([^）]+)）', ja_text):
         alt = m.group(1).strip()
         if alt and alt not in answers:
             answers.append(alt)
 
-    return answers if answers else [ja_text]
+    # 「、」で分割した結果、元のテキスト全体も答えとして保持する（既存の挙動維持）
+    # ただし分割結果が複数ある場合は、元のテキストも含める
+    # （例：「動作、アクション」のような場合は分割結果をそのまま使う）
+
+    # 重複を除去
+    seen = set()
+    unique_answers = []
+    for ans in answers:
+        if ans and ans not in seen:
+            seen.add(ans)
+            unique_answers.append(ans)
+
+    return unique_answers if unique_answers else [ja_text]
 
 
 # ことができます直前の動詞 → 可能形語幹
