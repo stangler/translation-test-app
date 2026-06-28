@@ -212,6 +212,7 @@ export default function Home() {
     "he's": "he is",
     "she's": "she is",
     "it's": "it is",
+    "that's": "that is",
     "we're": "we are",
     "they're": "they are",
     "i've": "i have",
