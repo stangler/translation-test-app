@@ -729,7 +729,6 @@ export default function Home() {
           <input
             type="checkbox"
             id="shuffle-check"
-            defaultChecked
             className="w-4 h-4 accent-red"
           />
           シャッフルする
