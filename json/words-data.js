@@ -2516,9 +2516,9 @@ const wordsData = [
     "lesson": "3",
     "part": "2",
     "en": "What is this? It is a shrine.",
-    "ja": "これは何ですが。それは神社です。",
+    "ja": "これは何ですか。それは神社です。",
     "ja_answers": [
-      "これは何ですが。それは神社です。"
+      "これは何ですか。それは神社です。"
     ]
   },
   {
