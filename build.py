@@ -23,16 +23,14 @@ def parse_ja_answer(ja_text: str) -> list[str]:
         return []
 
     answers = []
-    # 「、」で区切られた複数の意味を分割
-    # ただし「動作、アクション」のような長い語句の途中の「、」は分割しないため、
-    # 日本語訳として一般的な短い語句（区切り表現）の場合のみ分割
-    # 具体的には: 各パートが英単語の訳として独立した意味を持つ場合
-    # 簡易的に「、」で分割し、各部分が括弧を含まない短い語句なら分割候補とする
-    for part in re.split(r'、', ja_text):
-        part = part.strip()
-        # 括弧を含むもの（例：「毎…、…ごとに」）は1つの答えとして扱う
-        # 短い語句（例：「たびたび」「よく」）は独立した答え
-        answers.append(part)
+    # 「。」を含む全文の場合は「、」で分割しない（例: 「いいえ、違います。」→ 1つの答え）
+    if '。' in ja_text:
+        answers.append(ja_text)
+    else:
+        # 「、」で区切られた複数の意味を分割（例: 「たびたび、よく」→ ["たびたび", "よく"]）
+        for part in re.split(r'、', ja_text):
+            part = part.strip()
+            answers.append(part)
 
     # （=...）形式の別解も抽出
     for m in re.finditer(r'（=([^）]+)）', ja_text):
