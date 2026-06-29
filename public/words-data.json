@@ -420,7 +420,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-1",
+    "part": "2-2",
     "en": "Do you like English?",
     "ja": "あなたは英語が好きですか。",
     "ja_answers": [
@@ -429,7 +429,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-1",
+    "part": "2-2",
     "en": "You play tennis.",
     "ja": "あなたはテニスをします。",
     "ja_answers": [
@@ -438,7 +438,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-1",
+    "part": "2-2",
     "en": "Do you play tennis?",
     "ja": "あなたはテニスをしますか。",
     "ja_answers": [
@@ -447,7 +447,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-1",
+    "part": "2-2",
     "en": "Are you a math teacher? No, I'm not.",
     "ja": "あなたは数学の先生ですか。 いいえ、違います。",
     "ja_answers": [
@@ -457,7 +457,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-1",
+    "part": "2-2",
     "en": "Are you in the judo club?",
     "ja": "あなたは柔道部に所属していますか。",
     "ja_answers": [
@@ -466,7 +466,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-1",
+    "part": "2-2",
     "en": "Do you drink milk? No, I don't.",
     "ja": "あなたは牛乳を飲みますか。いいえ、飲みません。",
     "ja_answers": [
@@ -476,7 +476,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-1",
+    "part": "2-2",
     "en": "Do you watch baseball?",
     "ja": "あなたは野球を見ますか。",
     "ja_answers": [
@@ -576,7 +576,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-2",
+    "part": "2-3",
     "en": "I am a tennis fan.",
     "ja": "私はテニスファンです。",
     "ja_answers": [
@@ -589,7 +589,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-2",
+    "part": "2-3",
     "en": "I am not a tennis fan.",
     "ja": "私はテニスファンではありません。",
     "ja_answers": [
@@ -602,7 +602,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-2",
+    "part": "2-3",
     "en": "I play tennis.",
     "ja": "私はテニスをします。",
     "ja_answers": [
@@ -615,7 +615,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-2",
+    "part": "2-3",
     "en": "I do not play tennis.",
     "ja": "私はテニスをしません。",
     "ja_answers": [
@@ -628,7 +628,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-2",
+    "part": "2-3",
     "en": "I am not a rugby fan.",
     "ja": "私はラグビーのファンではありません。",
     "ja_answers": [
@@ -641,7 +641,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-2",
+    "part": "2-3",
     "en": "I'm not good at soccer.",
     "ja": "私はサッカーが上手ではありません。",
     "ja_answers": [
@@ -654,7 +654,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-2",
+    "part": "2-3",
     "en": "I don't play the piano.",
     "ja": "私はピアノをひきません。",
     "ja_answers": [
@@ -667,7 +667,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-2",
+    "part": "2-3",
     "en": "I don't eat chocolate.",
     "ja": "私はチョコレートを食べません。",
     "ja_answers": [
@@ -680,7 +680,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-2",
+    "part": "2-3",
     "en": "take",
     "ja": "（授業などを）受ける",
     "ja_answers": [
@@ -689,7 +689,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-2",
+    "part": "2-3",
     "en": "fan",
     "ja": "ファン",
     "ja_answers": [
@@ -698,7 +698,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-2",
+    "part": "2-3",
     "en": "every",
     "ja": "毎…、…ごとに",
     "ja_answers": [
@@ -708,7 +708,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-2",
+    "part": "2-3",
     "en": "I study English every day.",
     "ja": "私は毎日英語を勉強します。",
     "ja_answers": [
@@ -721,7 +721,7 @@
   },
   {
     "lesson": "1",
-    "part": "2-2",
+    "part": "2-3",
     "en": "I practice baseball after school.",
     "ja": "ぼくは放課後に野球を練習します。",
     "ja_answers": [
