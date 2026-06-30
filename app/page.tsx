@@ -44,11 +44,43 @@ const matchJa = (userRaw: string, answers: string[]): boolean => {
     s
       .trim()
       .toLowerCase()
+      .normalize("NFKC")
       .replace(/[。、．，…]/g, "")
       .replace(/^を/, "")
       .replace(/へ/g, "に");
   const user = normalize(userRaw);
-  return answers.some((ans) => normalize(ans) === user);
+  // Exact match first
+  if (answers.some((ans) => normalize(ans) === user)) return true;
+
+  // Script-aware fallback: if lengths differ, skip
+  const isKanji = (c: string) => /[\u4e00-\u9fff]/.test(c);
+  const isHiragana = (c: string) => /[\u3040-\u309f]/.test(c);
+  const isKatakana = (c: string) => /[\u30a0-\u30ff]/.test(c);
+  const isKana = (c: string) => isHiragana(c) || isKatakana(c);
+  const isJapaneseScript = (c: string) => isKanji(c) || isKana(c);
+
+  // Two strings with the same length where each position is
+  // either identical or uses a complementary Japanese script
+  // (kanji↔kana or hiragana↔katakana) are considered equivalent.
+  const scriptsMatch = (a: string, b: string): boolean => {
+    if (a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) {
+      const ca = a[i];
+      const cb = b[i];
+      if (ca === cb) continue;
+      // Both must be Japanese script characters
+      if (!isJapaneseScript(ca) || !isJapaneseScript(cb)) return false;
+      // Accept kanji↔kana and hiragana↔katakana substitutions
+      if (isKanji(ca) && isKana(cb)) continue;
+      if (isKana(ca) && isKanji(cb)) continue;
+      if (isHiragana(ca) && isKatakana(cb)) continue;
+      if (isKatakana(ca) && isHiragana(cb)) continue;
+      return false;
+    }
+    return true;
+  };
+
+  return answers.some((ans) => scriptsMatch(normalize(ans), user));
 };
 
 async function matchJaWithAI(
