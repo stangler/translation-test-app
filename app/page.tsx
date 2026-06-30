@@ -45,7 +45,8 @@ const matchJa = (userRaw: string, answers: string[]): boolean => {
       .trim()
       .toLowerCase()
       .replace(/[。、．，…]/g, "")
-      .replace(/^を/, "");
+      .replace(/^を/, "")
+      .replace(/へ/g, "に");
   const user = normalize(userRaw);
   return answers.some((ans) => normalize(ans) === user);
 };
