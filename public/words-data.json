@@ -1132,7 +1132,10 @@
     "part": "Words & Sounds 1",
     "en": "How many rice balls do you usually eat?",
     "ja": "あなたはふつう何個のおにぎりを食べますか。",
-    "ja_answers": ["あなたはふつう何個のおにぎりを食べますか。"]
+    "ja_answers": [
+      "あなたはふつう何個のおにぎりを食べますか。",
+      "あなたは普通何個のおにぎりを食べますか。"
+    ]
   },
   {
     "lesson": "1",
