@@ -1198,7 +1198,7 @@ const wordsData = [
     part: "2",
     en: "on",
     ja: "…の上に[の]",
-    ja_answers: ["…の上に[の]"],
+    ja_answers: ["…の上に[の]", "の上に"],
   },
   {
     lesson: "2",
