@@ -45,8 +45,9 @@ const matchJa = (userRaw: string, answers: string[]): boolean => {
       .trim()
       .toLowerCase()
       .normalize("NFKC")
-      .replace(/[。、．，…]/g, "")
-      .replace(/^を/, "")
+      .replace(/[。、．，…,]/g, "")
+      .replace(/\./g, "")
+      .replace(/を/g, "")
       .replace(/へ/g, "に");
   const user = normalize(userRaw);
   // Exact match first
