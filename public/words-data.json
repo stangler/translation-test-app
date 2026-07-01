@@ -1010,7 +1010,7 @@
     "part": "Goal Activity",
     "en": "many",
     "ja": "多くの",
-    "ja_answers": ["多くの"]
+    "ja_answers": ["多くの", "たくさん"]
   },
   {
     "lesson": "1",
